@@ -46,9 +46,65 @@ function OptionPreview({ part, optionId, color }: { part: PartKey; optionId: str
   };
   return (
     <div className="w-full h-full">
-      <CharacterSVG selections={sel} />
-    </div>
-  );
+     <svg viewBox="0 0 100 100" className="w-full h-full">
+  {part === 'body' && optionId === 'round' && (
+  <circle cx="50" cy="50" r="32" fill={color} />
+)}
+
+{part === 'body' && optionId === 'blobby' && (
+  <ellipse cx="50" cy="50" rx="36" ry="28" fill={color} />
+)}
+
+{part === 'body' && optionId === 'blocky' && (
+  <rect x="20" y="25" width="60" height="55" rx="10" fill={color} />
+)}
+
+{part === 'body' && optionId === 'starry' && (
+  <polygon
+    points="50,5 62,34 94,36 69,56 78,90 50,72 22,90 31,56 6,36 38,34"
+    fill={color}
+  />
+)}
+
+{part === 'body' && optionId === 'diamond' && (
+  <polygon points="50,15 80,50 50,85 20,50" fill={color} />
+    
+  )}
+
+  {part === 'eyes' && (
+    <>
+      <circle cx="35" cy="45" r="10" fill="white" />
+      <circle cx="65" cy="45" r="10" fill="white" />
+      <circle cx="35" cy="45" r="4" fill={color} />
+      <circle cx="65" cy="45" r="4" fill={color} />
+    </>
+  )}
+
+  {part === 'mouth' && (
+    <path d="M30 55 Q50 75 70 55" stroke={color} strokeWidth="8" fill="none" strokeLinecap="round" />
+  )}
+
+  {part === 'hair' && (
+    <path d="M25 55 L35 25 L45 55 L55 25 L65 55 L75 25 L85 55 Z" fill={color} />
+  )}
+
+  {part === 'arms' && (
+    <>
+      <path d="M25 35 Q5 50 20 70" stroke={color} strokeWidth="10" fill="none" strokeLinecap="round" />
+      <path d="M75 35 Q95 50 80 70" stroke={color} strokeWidth="10" fill="none" strokeLinecap="round" />
+    </>
+  )}
+
+  {part === 'legs' && (
+    <>
+      <path d="M40 35 V75" stroke={color} strokeWidth="10" strokeLinecap="round" />
+      <path d="M60 35 V75" stroke={color} strokeWidth="10" strokeLinecap="round" />
+    </>
+  )}
+</svg>
+</div>
+);
+  
 }
 
 function PartSelector({
@@ -74,22 +130,24 @@ function PartSelector({
         Choose a color, then tap your favorite!
       </p>
 
-      <div className="flex gap-3 flex-1 min-h-0">
-        <div className="flex-shrink-0 flex flex-col items-center justify-center bg-white/5 rounded-2xl p-3 border border-white/10">
+      <div className="flex flex-col gap-4 flex-1 min-h-0 overflow-y-auto">
+        <div className="flex-shrink-0 flex flex-row justify-center items-center gap-3 flex-wrap w-full">
           <ColorWheel onColorChange={onColorChange} currentColor={currentColor} />
         </div>
 
-        <div className="flex-1 flex flex-col gap-2 overflow-y-auto pr-1">
+        <div className="w-full flex flex-col gap-2 mt-4">
           {options.map((opt) => (
             <button
               key={opt.id}
               onClick={() => onSelect(opt.id)}
-              className="part-card flex items-center gap-3 bg-white/10 hover:bg-white/20 border-2 border-white/20 hover:border-white/50 rounded-2xl p-2 text-left"
+              className="part-card flex items-center gap-3 bg-white/10 hover:bg-white/20 border-2 border-white/20 hover:border-white/50 rounded-2xl p-2"
             >
               <div className="w-14 h-14 flex-shrink-0 bg-slate-800/60 rounded-xl overflow-hidden border border-white/10">
                 <OptionPreview part={part} optionId={opt.id} color={currentColor} />
               </div>
-              <span className="text-white font-black text-base">{opt.label}</span>
+             <span className="text-white font-black text-base">
+  {opt.label}
+</span>
             </button>
           ))}
         </div>
@@ -243,13 +301,13 @@ export default function App() {
       )}
 
       {/* Main */}
-      <main className="flex-1 flex gap-3 px-4 pb-4 min-h-0 overflow-hidden">
-        {/* Character panel */}
-        <div className="flex flex-col items-center justify-center flex-shrink-0 gap-2" style={{ width: 160 }}>
-          <div
-            className="relative rounded-3xl overflow-hidden border-2 border-white/20 bg-white/5 w-full"
-            style={{ aspectRatio: '3/4' }}
-          >
+     <main className="flex-1 flex flex-col px-4 pb-4 overflow-y-auto">
+
+  {/* Character panel */}
+  <div className="flex flex-col items-center gap-4"> 
+ <div
+className="relative rounded-3xl overflow-hidden border-2 border-white/20 bg-white/5 w-[240px] h-[320px] mx-auto flex items-center justify-center"
+>
             <CharacterSVG
               selections={builtSelections}
               activeAction={activeAction}
@@ -322,6 +380,9 @@ export default function App() {
             </div>
           )}
         </div>
+
+  
+
       </main>
     </div>
   );

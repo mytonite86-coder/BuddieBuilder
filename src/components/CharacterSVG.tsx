@@ -39,10 +39,27 @@ function BodyShape({ id, color }: { id: string; color: string }) {
     case 'star':
       return (
         <g>
-          <polygon
-            points="100,70 115,110 158,110 124,133 136,175 100,152 64,175 76,133 42,110 85,110"
-            fill={color} stroke={dark} strokeWidth="2"
-          />
+         <polygon
+           transform="translate(-12 -12) scale(1.12)"
+  points="
+    100,75
+    122,125
+    182,128
+    136,160
+    152,218
+    100,188
+    48,218
+    64,160
+    18,128
+    78,125
+  "
+
+  fill={color}
+  stroke={dark}
+  strokeWidth="4"
+
+/>
+        
         </g>
       );
     case 'diamond':
@@ -395,8 +412,12 @@ export default function CharacterSVG({ selections, activeAction, highlightPart, 
   else if (activeAction === 'excited') animClass = 'char-excited';
 
   return (
-    <svg
-      viewBox="0 0 200 280"
+   <svg
+  viewBox="0 0 200 300"
+  width="100%"
+  height="100%"
+  preserveAspectRatio="xMidYMid meet"
+
       xmlns="http://www.w3.org/2000/svg"
       className={`w-full h-full ${animClass}`}
       style={{ filter: 'drop-shadow(0 8px 24px rgba(0,0,0,0.4))' }}
