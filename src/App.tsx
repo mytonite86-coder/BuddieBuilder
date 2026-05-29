@@ -55,11 +55,11 @@ function OptionPreview({ part, optionId, color }: { part: PartKey; optionId: str
   <ellipse cx="50" cy="50" rx="36" ry="28" fill={color} />
 )}
 
-{part === 'body' && optionId === 'blocky' && (
+{part === 'body' && (optionId === 'blocky' || optionId === 'square') && (
   <rect x="20" y="25" width="60" height="55" rx="10" fill={color} />
 )}
 
-{part === 'body' && optionId === 'starry' && (
+{part === 'body' && (optionId === 'starry' || optionId === 'star') && (
   <polygon
     points="50,5 62,34 94,36 69,56 78,90 50,72 22,90 31,56 6,36 38,34"
     fill={color}
@@ -67,9 +67,8 @@ function OptionPreview({ part, optionId, color }: { part: PartKey; optionId: str
 )}
 
 {part === 'body' && optionId === 'diamond' && (
-  <polygon points="50,15 80,50 50,85 20,50" fill={color} />
-    
-  )}
+  <polygon points="70,35 100,70 70,105 40,70" fill={color} />
+)}react
 
   {part === 'eyes' && (
     <>
