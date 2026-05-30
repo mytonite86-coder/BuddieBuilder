@@ -139,14 +139,11 @@ function PartSelector({
             <button
               key={opt.id}
               onClick={() => onSelect(opt.id)}
-              className="part-card flex items-center gap-3 bg-white/10 hover:bg-white/20 border-2 border-white/20 hover:border-white/50 rounded-2xl p-2"
-            >
+             className="part-card flex justify-center items-center ...">
               <div className="w-14 h-14 flex-shrink-0 bg-slate-800/60 rounded-xl overflow-hidden border border-white/10">
                 <OptionPreview part={part} optionId={opt.id} color={currentColor} />
               </div>
-             <span className="text-white font-black text-base">
-  {opt.label}
-</span>
+             
             </button>
           ))}
         </div>
