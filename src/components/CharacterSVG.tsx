@@ -1,4 +1,4 @@
-import { Selections, ActionId } from '../types';
+import { Selections, ActionId, PartKey } from '../types';
 
 interface Props {
   selections: Partial<Selections>;
@@ -237,7 +237,6 @@ function HairShape({ id, color, bodyId }: { id: string; color: string; bodyId: s
 function ArmShape({ id, color, side, bodyId }: { id: string; color: string; side: 'left' | 'right'; bodyId: string }) {
   const dark = darken(color);
   const isLeft = side === 'left';
-  const mirror = isLeft ? 1 : -1;
   const baseX = isLeft ? 35 : 165;
   const bodyY = bodyId === 'square' ? 110 : 120;
 
@@ -383,7 +382,7 @@ function LegShape({ id, color, side }: { id: string; color: string; side: 'left'
 export default function CharacterSVG({ selections, activeAction, highlightPart, previewColor }: Props) {
   const colors = selections.colors ?? {} as Record<string, string>;
 
-  const getColor = (part: string, fallback: string) => {
+  const getColor = (part: PartKey, fallback: string) => {
     if (highlightPart === part && previewColor) return previewColor;
     return colors[part] ?? fallback;
   };
