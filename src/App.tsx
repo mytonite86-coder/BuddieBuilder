@@ -1,7 +1,6 @@
 import { PointerEvent as ReactPointerEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { ACTIONS, ActionId, DEFAULT_COLORS, PART_LABELS, PART_OPTIONS, PART_ORDER, PartKey, Selections } from './types';
 import CharacterSVG from './components/CharacterSVG';
-import ColorWheel from './components/ColorWheel';
 import { ChevronLeft, ChevronRight, RotateCcw, Star } from 'lucide-react';
 
 type Phase = 'build' | 'play';
@@ -19,6 +18,18 @@ const DROP_ZONES: Record<PartKey, { left: number; top: number; width: number; he
   arms: { left: 2, top: 30, width: 96, height: 40 }, legs: { left: 18, top: 65, width: 64, height: 34 },
 };
 const EMPTY_SELECTIONS: Record<PartKey, string> = { body: '', eyes: '', mouth: '', hair: '', arms: '', legs: '' };
+const CHILD_PALETTES: Partial<Record<PartKey, { name: string; value: string }[]>> = {
+  body: [
+    { name: 'Pumpkin', value: '#FF7A45' }, { name: 'Slime', value: '#65D46E' },
+    { name: 'Moon', value: '#FFE66D' }, { name: 'Ghost', value: '#F4F1FF' },
+    { name: 'Potion', value: '#9D7BFF' }, { name: 'Lagoon', value: '#42C7C7' },
+  ],
+  hair: [
+    { name: 'Midnight', value: '#342B4A' }, { name: 'Pumpkin', value: '#FF7A45' },
+    { name: 'Moon', value: '#FFE66D' }, { name: 'Berry', value: '#C94F8A' },
+    { name: 'Moss', value: '#557A46' }, { name: 'Ghost', value: '#F4F1FF' },
+  ],
+};
 
 function previewSelections(part: PartKey, optionId: string, color: string): Partial<Selections> {
   return {
@@ -33,6 +44,24 @@ function OptionPreview({ part, optionId, color }: { part: PartKey; optionId: str
   return <CharacterSVG selections={previewSelections(part, optionId, color)} />;
 }
 
+function SimplePalette({ part, currentColor, onColorChange }: {
+  part: PartKey; currentColor: string; onColorChange: (color: string) => void;
+}) {
+  const palette = CHILD_PALETTES[part];
+  if (!palette) return null;
+  return <fieldset className="simple-palette">
+    <legend>{part === 'body' ? 'Pick a monster color' : 'Pick a hair color'}</legend>
+    <div className="palette-swatches">
+      {palette.map((color) => <button key={color.value} type="button" aria-label={`${color.name} ${part} color`}
+        aria-pressed={currentColor === color.value} onClick={() => onColorChange(color.value)}
+        className={`palette-swatch ${currentColor === color.value ? 'palette-swatch-selected' : ''}`}>
+        <span className="palette-color" style={{ backgroundColor: color.value }} aria-hidden="true" />
+        <span>{color.name}</span>
+      </button>)}
+    </div>
+  </fieldset>;
+}
+
 function PartSelector({ part, currentColor, selectedId, onSelect, onColorChange, onDragStart }: {
   part: PartKey; currentColor: string; selectedId: string; onSelect: (id: string) => void;
   onColorChange: (color: string) => void;
@@ -44,8 +73,10 @@ function PartSelector({ part, currentColor, selectedId, onSelect, onColorChange,
         <h2 id="part-picker-title" className="text-2xl font-black text-white">Try some <span className="shimmer-text">{PART_LABELS[part]}</span>!</h2>
         <p className="text-white/65 text-sm">Tap one, or drag it onto the glowing spot.</p>
       </div>
-      <div className="flex justify-center"><ColorWheel onColorChange={onColorChange} currentColor={currentColor} /></div>
-      <div className="part-tray" role="list" aria-label={`${PART_LABELS[part]} choices`}>
+      <SimplePalette part={part} currentColor={currentColor} onColorChange={onColorChange} />
+      <div className="toy-shelf" role="group" aria-label={`${PART_LABELS[part]} monster part shelf`}>
+        <div className="shelf-sign" aria-hidden="true"><span>🦇</span> Monster Part Shelf <span>🎃</span></div>
+        <div className="part-tray" role="list" aria-label={`${PART_LABELS[part]} choices`}>
         {PART_OPTIONS[part].map((option) => (
           <button key={option.id} type="button"
             aria-label={`Choose ${option.label} ${PART_LABELS[part].toLowerCase()}`} aria-pressed={selectedId === option.id}
@@ -57,6 +88,8 @@ function PartSelector({ part, currentColor, selectedId, onSelect, onColorChange,
             {selectedId === option.id && <span className="part-selected-badge" aria-hidden="true">✓</span>}
           </button>
         ))}
+        </div>
+        <div className="shelf-board" aria-hidden="true" />
       </div>
     </section>
   );
