@@ -1,11 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 * {
-  font-family: 'Nunito', sans-serif;
+  font-family: ui-rounded, 'Arial Rounded MT Bold', system-ui, sans-serif;
 }
 
 /* ── Character animations ── */

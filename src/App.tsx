@@ -1,6 +1,7 @@
 import { PointerEvent as ReactPointerEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { ACTIONS, ActionId, DEFAULT_COLORS, PART_LABELS, PART_OPTIONS, PART_ORDER, PartKey, Selections } from './types';
 import CharacterSVG from './components/CharacterSVG';
+import OfflineStatus from './components/OfflineStatus';
 import { ChevronLeft, ChevronRight, RotateCcw, Star } from 'lucide-react';
 
 type Phase = 'build' | 'play';
@@ -211,6 +212,7 @@ export default function App() {
         </div>}
       </section>
     </main>
+    <OfflineStatus />
     {drag && <div className={`drag-preview ${drag.overTarget ? 'drag-preview-valid' : ''}`} style={{ left: drag.x, top: drag.y }} aria-hidden="true">
       <OptionPreview part={currentPart} optionId={drag.optionId} color={colors[currentPart]} /><span>{drag.label}</span>
     </div>}

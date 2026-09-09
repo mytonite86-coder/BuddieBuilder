@@ -1,0 +1,3 @@
+# BuddieBuilder continuity
+
+This repository belongs to existing concept SKI-2026-007. Before work, read the current parent workspace's `operations/skald-kreepy-master.md`, `operations/ideas/ideas-master.md` section 2.1, `operations/work-block-continuity-protocol.md`, and the active Work block plus latest handoff. Current block: `operations/work-blocks/2026-09-08-buddiebuilder-offline-foundation.md` (paths relative to the parent App Operations workspace). Read current revisions; if unavailable, stop and ask. Preserve existing code and owner changes. Family-first/offline; no commerce, accounts, native packaging or publication without a separate authorized block. Acceptance passes = STOP.
